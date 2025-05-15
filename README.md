@@ -1,100 +1,105 @@
 # Projeto de Testes de API com Cypress e Cucumber
 
-Este projeto contém testes automatizados para a API Star Wars (SWAPI) utilizando Cypress e Cucumber.
+Este repositório contém testes automatizados para a [API Star Wars (SWAPI)](https://swapi.py4e.com) utilizando o framework Cypress em conjunto com o pré-processador Cucumber (Gherkin).
 
-## Pré-requisitos
+## 🚀 Pré-requisitos
 
-*   [Node.js](https://nodejs.org/) (versão 18.x ou superior recomendada)
-*   [npm](https://www.npmjs.com/) (geralmente vem com o Node.js)
+- [Node.js](https://nodejs.org/) (recomenda-se a versão 18.x ou superior)
+- [npm](https://www.npmjs.com/) (instalado com o Node.js)
 
-## Configuração Inicial
+## ⚙️ Configuração Inicial
 
-1.  **Clone o repositório** (se aplicável) ou certifique-se de que você tem os arquivos do projeto.
+1. Clone o repositório ou baixe os arquivos do projeto.
 
-2.  **Navegue até a pasta raiz do projeto** no seu terminal:
-    ```bash
-    cd caminho/para/tray-qa-api-test
-    ```
+2. Acesse a pasta raiz no terminal:
 
-3.  **Instale as dependências do projeto**:
-    Se você encontrar problemas com `npm install` (executáveis não sendo linkados em `node_modules/.bin`), pode haver um problema com sua configuração local do `npm` ou `nvm`. Certifique-se de que seu ambiente Node.js está configurado corretamente. Um passo que tentamos durante a depuração foi:
-    ```bash
-    # Se você usa nvm e tem problemas com prefixo global (verifique os logs do npm)
-    # nvm use --delete-prefix SUA_VERSAO_NODE --silent 
-    # Exemplo: nvm use --delete-prefix v18.20.5 --silent
-    ```
-    Em seguida, instale as dependências:
-    ```bash
-    npm install
-    ```
+```bash
+cd caminho/para/tray-qa-api-test
+```
 
-## Estrutura do Projeto
+3. Instale as dependências do projeto:
 
-*   `cypress.config.js`: Arquivo de configuração principal do Cypress, incluindo a configuração do pré-processador Cucumber.
-*   `cypress/e2e/`: Contém os arquivos de feature (`.feature`) do Gherkin.
-    *   `api_star_wars.feature`: Exemplo de feature para testar a SWAPI.
-*   `cypress/support/`: Contém arquivos de suporte para os testes.
-    *   `e2e.js`: Arquivo de suporte principal do Cypress para testes e2e. (Anteriormente importava os steps, mas isso foi removido pois o pré-processador os descobre).
-    *   `commands.js`: Para adicionar comandos customizados do Cypress.
-    *   `step_definitions/`: Contém os arquivos de implementação dos steps (`.steps.js`).
-        *   `api/starwars.steps.js`: Implementação dos steps para a feature `api_star_wars.feature`.
-*   `package.json`: Define os scripts do projeto e as dependências.
-*   `README.md`: Este arquivo.
+```bash
+npm install
+```
 
-## Como Rodar os Testes
+> Caso tenha problemas com permissões ou ambiente do Node.js, revise sua instalação do `nvm` ou `npm`.
 
-Você pode executar os testes de várias maneiras:
+## 📁 Estrutura do Projeto
 
-1.  **Abrir o Cypress Test Runner (Interface Gráfica):**
-    Este comando abre a UI do Cypress, onde você pode ver seus arquivos de feature e executá-los interativamente.
-    ```bash
-    npm run cypress:run
-    ```
-    Ou diretamente:
-    ```bash
-    npx cypress open
-    ```
+```
+tray-qa-api-test/
+├── cypress.config.js           # Configuração do Cypress + Cucumber
+├── cypress/
+│   ├── e2e/
+│   │   └── api/                # Features de API (Gherkin)
+│   │       └── starwars.feature
+│   └── support/
+│       ├── commands.js        # Comandos customizados do Cypress
+│       ├── e2e-api.js         # Suporte para testes de API
+│       ├── e2e-ui.js          # Suporte para testes de UI (se houver)
+│       └── step_definitions/
+│           └── api/
+│               └── starwars.steps.js
+├── package.json               # Scripts e dependências do projeto
+├── README.md                  # Documentação (este arquivo)
+```
 
-2.  **Rodar todos os testes em modo headless (via linha de comando):**
-    Este comando executa todos os arquivos de feature encontrados na pasta `cypress/e2e/` em segundo plano.
-    ```bash
-    npm run cypress:run
-    ```
-    Ou diretamente:
-    ```bash
-    npx cypress run
-    ```
+## 🧪 Como Executar os Testes
 
-3.  **Rodar uma feature específica em modo headless:**
-    Use este comando para executar apenas a feature `api_star_wars.feature`.
-    ```bash
-    npm run test:api
-    ```
-    Isso utiliza o script definido no `package.json`:
-    `"test:api": "cypress run --spec \"cypress/e2e/api_star_wars.feature\""`
+### 1. Rodar via Interface Gráfica do Cypress
 
-## Relatórios de Teste
+```bash
+npx cypress open
+```
 
-A configuração atual do Cucumber (`cypress.config.js`) está definida para gerar um relatório HTML em `cucumber-report.html` na raiz do projeto após a execução dos testes. (Nota: esta formatação de relatório é mais comum em setups de Cucumber-js puro; com `@badeball/cypress-cucumber-preprocessor`, a geração de relatórios Cucumber distintos pode exigir configuração adicional ou o uso de reporters JSON do Cucumber que podem ser processados por ferramentas externas).
+### 2. Rodar todos os testes em modo headless
 
-Para relatórios mais integrados ao Cypress, você pode explorar os reporters nativos do Cypress ou plugins de reporting do Cypress.
+```bash
+npx cypress run
+```
 
-## Troubleshooting
+### 3. Rodar apenas os testes de API
 
-*   **Erro "Expected to find a global registry"**: 
-    Este erro geralmente ocorre com `@badeball/cypress-cucumber-preprocessor` se os steps estão sendo definidos ou importados de maneira incorreta (por exemplo, diretamente no `cypress/support/e2e.js`). A solução geralmente é remover tais imports e deixar o pré-processador descobrir os steps, ou configurar corretamente os caminhos de `stepDefinitions` se necessário.
+```bash
+npm run test:api
+```
 
-*   **Erro de parsing Gherkin (ex: `expected: #TagLine, #FeatureLine, #Comment, #Empty, got ...`)**:
-    Verifique a formatação do seu arquivo `.feature`. Erros comuns incluem linhas em branco inesperadas, indentação incorreta ou caracteres invisíveis. A linha `# language: pt` deve estar no topo, seguida por tags e depois `Feature: ...`.
+> Este comando utiliza `e2e-api.js` como `supportFile`.
 
-*   **`npm test` não funciona ou `cucumber-js` não encontrado (para o setup anterior de Cucumber.js puro)**:
-    Se você estava tentando rodar um setup de Cucumber.js (não-Cypress) e encontrou problemas, isso geralmente está relacionado a problemas de instalação de dependências (`npm install` não criando links em `node_modules/.bin`) ou configurações do `npm`/`nvm`. O projeto atual está focado no Cypress.
+### Scripts disponíveis no `package.json`
 
-## Dependências Chave
+```json
+"scripts": {
+  "test:api": "CYPRESS_supportFile=cypress/support/e2e-api.js npx cypress run --env tipo=api",
+  "test:ui": "CYPRESS_supportFile=cypress/support/e2e-ui.js npx cypress run --env tipo=ui"
+}
+```
 
-*   `cypress`: Framework principal de testes.
-*   `@badeball/cypress-cucumber-preprocessor`: Pré-processador para permitir o uso de arquivos Gherkin/Cucumber com Cypress.
-*   `@bahmutov/cypress-esbuild-preprocessor`: Bundler ESBuild usado pelo pré-processador Cucumber.
-*   `chai`: Biblioteca de asserção (usada nos arquivos de steps).
-*   `axios`: Cliente HTTP (se você precisar fazer requisições fora do `cy.request()` nos seus steps, embora para testes de API com Cypress, `cy.request()` seja o preferido). # tray-qa-api-test
+## 🧾 Relatórios de Teste
 
+A geração de relatórios JSON via Cucumber pode ser habilitada, e integradores externos (como Allure ou Cucumber HTML Report) podem ser configurados conforme necessidade. O Cypress por padrão gera vídeos e screenshots (se habilitado).
+
+## 🛠️ Troubleshooting
+
+- **Erro: `supportFile missing or invalid`**
+  → Verifique se o caminho do arquivo `supportFile` está correto.
+
+- **Erro de parsing Gherkin**
+  → Revise a sintaxe do `.feature`, mantendo `# language: pt` na primeira linha.
+
+- **Steps não reconhecidos**
+  → Confirme se o `stepDefinitions` está corretamente mapeado em `cypress.config.js`.
+
+## 📦 Dependências Principais
+
+- [`cypress`](https://www.npmjs.com/package/cypress)
+- [`@badeball/cypress-cucumber-preprocessor`](https://github.com/badeball/cypress-cucumber-preprocessor)
+- [`@bahmutov/cypress-esbuild-preprocessor`](https://www.npmjs.com/package/@bahmutov/cypress-esbuild-preprocessor)
+- [`esbuild`](https://esbuild.github.io/)
+
+## 🧠 IDE e Suporte com IA
+
+O projeto foi desenvolvido utilizando o [Cursor](https://www.cursor.sh/) como IDE principal, o qual possui integração com IA para auxílio na estruturação de pastas e sugestões de código mais limpo e organizado.
+
+Toda a lógica dos testes e organização do projeto foram revisadas manualmente para garantir clareza, legibilidade e conformidade com os objetivos do desafio técnico.
