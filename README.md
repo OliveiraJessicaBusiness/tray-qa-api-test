@@ -97,4 +97,4 @@ Para relatórios mais integrados ao Cypress, você pode explorar os reporters na
 *   `@bahmutov/cypress-esbuild-preprocessor`: Bundler ESBuild usado pelo pré-processador Cucumber.
 *   `chai`: Biblioteca de asserção (usada nos arquivos de steps).
 *   `axios`: Cliente HTTP (se você precisar fazer requisições fora do `cy.request()` nos seus steps, embora para testes de API com Cypress, `cy.request()` seja o preferido). # tray-qa-api-test
-# tray-qa-api-test
+
