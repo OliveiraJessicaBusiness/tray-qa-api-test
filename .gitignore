@@ -1,0 +1,7 @@
+echo "node_modules/" >> .gitignore
+echo ".DS_Store" >> .gitignore
+echo "cypress/videos/" >> .gitignore
+echo "cypress/screenshots/" >> .gitignore
+git add .gitignore
+git commit -m "chore: adiciona .gitignore"
+node_modules
